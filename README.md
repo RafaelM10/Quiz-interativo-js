@@ -21,3 +21,4 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - HTML,BOOTSTRAP e JavaScript
 - Git e Github
 
+Aplicação no AR: https://rafaelm10.github.io/Quiz-interativo-js/
