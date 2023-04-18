@@ -1,27 +1,50 @@
 const form = document.querySelector(".quiz-form");
-const tituloDaQuestao = document.querySelector("#title-question");
+const result = document.querySelector(".result");
 
-const respostasCorretas = ["A", "B", "B", "A"];
+const answerCorrect = ["A", "D", "C", "B"];
 
-const pontuacaoUsuario = (event) => {
-  event.preventDefault();
+let score = 0;
 
-  let score = 0;
+const showUserResponse = () =>
+  answerCorrect.map((_, index) => form[`inputQuestion${index + 1}`].value);
 
-  const respostaDoUsuario = [
-    form.inputQuestion1.value,
-    form.inputQuestion2.value,
-    form.inputQuestion3.value,
-    form.inputQuestion4.value,
-  ];
-
-  respostaDoUsuario.forEach((resposta, index) => {
-    if (resposta === respostasCorretas[index]) {
-      return (score += 25);
+const answerUser = (userAnswers) => {
+  userAnswers.forEach((userAnswer, index) => {
+    const isUserAnswerCorrect = userAnswer === answerCorrect[index];
+    if (isUserAnswerCorrect) {
+      score += 25;
     }
   });
-  tituloDaQuestao.textContent = `Você acertou um total de ${score}%`;
-  form.textContent = "";
 };
 
-form.addEventListener("submit", pontuacaoUsuario);
+const percentageAnimation = () => {
+  let count = 0;
+
+  const timer = setInterval(() => {
+    if (count === score) {
+      clearInterval(timer);
+    }
+    result.querySelector("span").textContent = `${count++}%`;
+  }, 50);
+};
+
+const showFinalScore = () => {
+  scrollTo({
+    top: 0,
+    left: 0,
+    behavior: "smooth",
+  });
+  result.classList.remove("d-none");
+};
+
+const formSubmission = (event) => {
+  event.preventDefault();
+
+  const getUserAnswer = showUserResponse();
+
+  answerUser(getUserAnswer);
+  showFinalScore();
+  percentageAnimation();
+};
+
+form.addEventListener("submit", formSubmission);
