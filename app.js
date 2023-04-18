@@ -37,11 +37,16 @@ const showFinalScore = () => {
   result.classList.remove("d-none");
 };
 
+const resetUserScore = () => {
+  score = 0;
+};
+
 const formSubmission = (event) => {
   event.preventDefault();
 
   const getUserAnswer = showUserResponse();
 
+  resetUserScore();
   answerUser(getUserAnswer);
   showFinalScore();
   percentageAnimation();
